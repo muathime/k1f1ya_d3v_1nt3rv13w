@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgres://kifiya:kifiya123@postgres:5432/kifiya
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    volumes:
+      - ./frontend:/app
+    environment:
+      - VITE_API_URL=http://backend:3000
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:15
+    container_name: dev_postgres
+    environment:
+      POSTGRES_USER: kifiya
+      POSTGRES_PASSWORD: kifiya123
+      POSTGRES_DB: kifiya
+    ports:
+      - "55432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7
+    container_name: dev_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+
+networks:
+  app-network:
+    driver: bridge
