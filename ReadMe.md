@@ -3,14 +3,17 @@
 This project contains a fullstack application with both frontend and backend in this same repo.
 
 ## Quick Start with Docker
+#### Clone the repository
+`git clone https://github.com/muathime/k1f1ya_d3v_1nt3rv13w.git`
 
-To run the entire app using Docker
+#### Change directory into the project
+`cd k1f1ya_d3v_1nt3rv13w`
 
-```
-docker compose up --build
-```
+#### Run the entire app with Docker Compose
+`docker compose up --build`
 
 This will start both the frontend (on http://localhost:5173) and the backend (on http://localhost:3000).
+
 
 #### Required > create a test user via an api client e.g. Postman (after running docker compose up --build)
 
